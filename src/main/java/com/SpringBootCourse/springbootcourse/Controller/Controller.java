@@ -24,6 +24,16 @@ public class Controller {
         return true;
     }
 
+    @GetMapping("id/{id}")
+    public JournalEntry getUsingId(@PathVariable Long id){
+        return journalEntryMap.get(id);
+    }
+
+    @DeleteMapping("id/{id}")
+    public JournalEntry deleteEntry(@PathVariable Long id){
+        return journalEntryMap.remove(id);
+    }
+
 
 
 
