@@ -4,6 +4,9 @@ import com.SpringBootCourse.springbootcourse.Entity.JournalEntry;
 import com.SpringBootCourse.springbootcourse.service.JournalEntryService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -26,21 +29,33 @@ public class Controller {
     }
 
     @PostMapping
-    public boolean createEntries(@RequestBody JournalEntry myEntry){
-        myEntry.setDate(LocalDateTime.now());
-        journalEntryService.saveEntry(myEntry);
-        return true;
+    public ResponseEntity<?> createEntries(@RequestBody JournalEntry myEntry){
+
+        if(myEntry!=null){
+            myEntry.setDate(LocalDateTime.now());
+            journalEntryService.saveEntry(myEntry);
+            return new ResponseEntity<JournalEntry>(myEntry, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("id/{id}")
-    public JournalEntry getUsingId(@PathVariable ObjectId id){
-       return journalEntryService.getById(id).orElse(null);
+    public ResponseEntity<?> getUsingId(@PathVariable ObjectId id){
+        JournalEntry data = journalEntryService.getById(id).orElse(null);
+        if(data!=null){
+            return new ResponseEntity<JournalEntry>(data,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @DeleteMapping("id/{id}")
     public boolean deleteEntry(@PathVariable ObjectId id){
         return journalEntryService.deleteById(id);
     }
+
+
     @PutMapping("id/{id}")
     public JournalEntry updateEntry(@PathVariable ObjectId id,@RequestBody JournalEntry newEntry){
        JournalEntry oldEntry = journalEntryService.getById(id).orElse(null);
