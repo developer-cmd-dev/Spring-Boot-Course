@@ -3,11 +3,8 @@ package com.SpringBootCourse.springbootcourse.service;
 import com.SpringBootCourse.springbootcourse.Entity.JournalEntry;
 import com.SpringBootCourse.springbootcourse.Entity.User;
 import com.SpringBootCourse.springbootcourse.repository.JournalEntryRepo;
-import com.SpringBootCourse.springbootcourse.repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,7 +43,11 @@ public class JournalEntryService {
       return   journalEntryRepo.findById(id);
     }
 
-    public boolean deleteById(ObjectId id){
+    public boolean deleteById(ObjectId id, String username){
+        User userData = userService.getUserByUsername(username);
+        JournalEntry data = journalEntryRepo.findById(id).orElse(null);
+        userData.getJournalEntries().remove(data);
+        userService.saveUser(userData);
         journalEntryRepo.deleteById(id);
         return true;
     }

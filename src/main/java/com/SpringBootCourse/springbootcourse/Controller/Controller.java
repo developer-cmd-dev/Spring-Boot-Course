@@ -57,9 +57,9 @@ public class Controller {
 
     }
 
-    @DeleteMapping("id/{id}")
-    public boolean deleteEntry(@PathVariable ObjectId id){
-        return journalEntryService.deleteById(id);
+    @DeleteMapping("/{username}/{id}")
+    public boolean deleteEntry(@PathVariable ObjectId id,@PathVariable String username){
+        return journalEntryService.deleteById(id,username);
     }
 
 
