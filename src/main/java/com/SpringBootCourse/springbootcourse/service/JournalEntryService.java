@@ -6,6 +6,7 @@ import com.SpringBootCourse.springbootcourse.repository.JournalEntryRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class JournalEntryService {
         return null;
     }
 
+    @Transactional
     public boolean saveEntry(JournalEntry journalEntry,String username){
         User userData = userService.getUserByUsername(username);
         if(userData!=null){
@@ -45,8 +47,8 @@ public class JournalEntryService {
 
     public boolean deleteById(ObjectId id, String username){
         User userData = userService.getUserByUsername(username);
-        JournalEntry data = journalEntryRepo.findById(id).orElse(null);
-        userData.getJournalEntries().remove(data);
+
+        userData.getJournalEntries().removeIf((x)->x.getId().equals(id));
         userService.saveUser(userData);
         journalEntryRepo.deleteById(id);
         return true;
