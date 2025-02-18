@@ -23,18 +23,25 @@ public class Controller {
     public JournalEntryService journalEntryService;
 
 
-    @GetMapping
-    public List<JournalEntry> getAll(){
-    return journalEntryService.getAll();
+    @GetMapping("/{username}")
+    public ResponseEntity<List<JournalEntry>> getAll(@PathVariable String username){
+        List<JournalEntry> journalEntries = journalEntryService.getAll(username);
+        if(journalEntries!=null){
+            return new ResponseEntity<>(journalEntries,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createEntries(@RequestBody JournalEntry myEntry){
+    @PostMapping("/{username}")
+    public ResponseEntity<?> createEntries(@PathVariable String username, @RequestBody JournalEntry myEntry){
 
         if(myEntry!=null){
             myEntry.setDate(LocalDateTime.now());
-            journalEntryService.saveEntry(myEntry);
-            return new ResponseEntity<JournalEntry>(myEntry, HttpStatus.OK);
+            boolean isSaved =   journalEntryService.saveEntry(myEntry,username);
+          if (isSaved){
+              return new ResponseEntity<JournalEntry>(myEntry, HttpStatus.OK);
+          }
+
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,13 +66,13 @@ public class Controller {
     @PutMapping("id/{id}")
     public JournalEntry updateEntry(@PathVariable ObjectId id,@RequestBody JournalEntry newEntry){
        JournalEntry oldEntry = journalEntryService.getById(id).orElse(null);
-       if (oldEntry !=null){
-        oldEntry.setTitle(newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty() ?newEntry.getTitle():
-                oldEntry.getTitle());
-           oldEntry.setContent(newEntry.getContent()!=null && !newEntry.getContent().isEmpty() ?newEntry.getContent():
-                oldEntry.getContent());
-       }
-       journalEntryService.saveEntry(oldEntry);
+//       if (oldEntry !=null){
+//        oldEntry.setTitle(newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty() ?newEntry.getTitle():
+//                oldEntry.getTitle());
+//           oldEntry.setContent(newEntry.getContent()!=null && !newEntry.getContent().isEmpty() ?newEntry.getContent():
+//                oldEntry.getContent());
+//       }
+//       journalEntryService.saveEntry(oldEntry);
        return oldEntry;
 
     }
