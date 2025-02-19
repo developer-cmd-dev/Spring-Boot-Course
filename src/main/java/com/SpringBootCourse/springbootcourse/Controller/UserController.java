@@ -8,6 +8,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,25 +28,12 @@ public class UserController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody  User user){
-        try {
-            userService.saveUser(user);
-            return new ResponseEntity<>(HttpStatus.OK);
 
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @GetMapping("/{username}")
-    public  ResponseEntity<?> getAll(@PathVariable String username){
-        User data = userService.getUserByUsername(username);
-        if(data!=null){
-            return new ResponseEntity<>(data,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    @PutMapping
+    public  ResponseEntity<?> getAll(@RequestBody User user){
+      userService.updateUser(user);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/id/{id}")
