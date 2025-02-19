@@ -18,10 +18,10 @@ public class JournalEntryController {
     @Autowired
     public JournalEntryService journalEntryService;
 
-
-    @GetMapping("/{username}")
-    public ResponseEntity<List<JournalEntry>> getAll(@PathVariable String username){
-        List<JournalEntry> journalEntries = journalEntryService.getAll(username);
+// Get all journal entries.
+    @GetMapping("/get-journal")
+    public ResponseEntity<List<JournalEntry>> getJournalData(){
+        List<JournalEntry> journalEntries = journalEntryService.getJournal();
         if(journalEntries!=null){
             return new ResponseEntity<>(journalEntries,HttpStatus.OK);
         }

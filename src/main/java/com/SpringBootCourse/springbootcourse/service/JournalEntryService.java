@@ -5,6 +5,8 @@ import com.SpringBootCourse.springbootcourse.Entity.User;
 import com.SpringBootCourse.springbootcourse.repository.JournalEntryRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +21,18 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
-    public List<JournalEntry> getAll(String username){
-        User userdata = userService.getUserByUsername(username);
-        if(userdata!=null){
-            return userdata.getJournalEntries();
+
+
+
+    public List<JournalEntry> getJournal(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if(username!=null){
+            User user  = userService.getUserByUsername(username);
+            return user.getJournalEntries();
         }
         return null;
+
     }
 
     @Transactional
