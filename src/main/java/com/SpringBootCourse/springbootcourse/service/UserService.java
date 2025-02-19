@@ -36,9 +36,17 @@ public class UserService {
         String userName = authentication.getName();
         if(userName !=null){
             User userData = userRepo.findByUsername(userName);
-             saveUser(userData);
+            saveUser(userData);
         }
 
+    }
+
+    public void deleteUser(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        if(userName !=null){
+            userRepo.deleteByUsername(userName);
+        }
     }
 
     public User getUserByUsername(String username){

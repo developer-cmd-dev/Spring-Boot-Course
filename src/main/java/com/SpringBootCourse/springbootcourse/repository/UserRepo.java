@@ -10,4 +10,5 @@ import java.util.function.Function;
 
 public interface UserRepo extends MongoRepository<User, ObjectId> {
     User findByUsername(String userName);
+    User deleteByUsername(String userName);
 }
