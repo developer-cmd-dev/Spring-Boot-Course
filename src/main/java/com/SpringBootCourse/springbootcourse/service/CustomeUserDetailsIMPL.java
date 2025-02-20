@@ -21,7 +21,7 @@ public class CustomeUserDetailsIMPL implements UserDetailsService {
            return org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
                     .password(user.getPassword())
-                    .roles(user.getRoles().toString())
+                    .roles(user.getRoles().toArray(new String[0]))
                     .build();
 
         }

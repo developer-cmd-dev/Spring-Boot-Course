@@ -25,9 +25,19 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void saveUser(User user){
+    public void saveNewUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(List.of("USER"));
+        userRepo.save(user);
+    }
+
+    public User saveNewAdmin(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("USER","ADMIN"));
+        return userRepo.save(user);
+    }
+
+    public void saveUser(User user){
         userRepo.save(user);
     }
 
