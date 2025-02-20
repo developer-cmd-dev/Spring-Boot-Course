@@ -4,6 +4,8 @@ package com.SpringBootCourse.springbootcourse.service;
 import com.SpringBootCourse.springbootcourse.Entity.User;
 import com.SpringBootCourse.springbootcourse.repository.UserRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,15 +22,22 @@ public class UserService {
     private UserRepo userRepo;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<User> getAllUser(){
         return userRepo.findAll();
     }
 
-    public void saveNewUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(List.of("USER"));
-        userRepo.save(user);
+    public boolean saveNewUser(User user){
+     try{
+         user.setPassword(passwordEncoder.encode(user.getPassword()));
+         user.setRoles(List.of("USER"));
+         userRepo.save(user);
+         return true;
+     }catch (Exception e){
+         logger.error("hahahha");
+         return false;
+     }
     }
 
     public User saveNewAdmin(User user){
