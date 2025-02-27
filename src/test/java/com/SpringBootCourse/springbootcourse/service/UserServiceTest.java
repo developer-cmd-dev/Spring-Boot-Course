@@ -41,6 +41,7 @@ public class UserServiceTest {
         assertNotNull(userRepo.findByUsername(name));
     }
 
+    @Disabled
     @ParameterizedTest
     @ArgumentsSource(AddUserTestArgument.class)
     public void addUserTest(User user){

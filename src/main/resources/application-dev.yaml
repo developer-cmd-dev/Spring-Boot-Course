@@ -1,10 +1,14 @@
 spring:
   data:
     mongodb:
-        uri: mongodb+srv://devkmandal0:Devk4522@cluster0.degwg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-        database: journaldb
-        auto-index-creation: true
+      uri: mongodb+srv://devkmandal0:Devk4522@cluster0.degwg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: journaldb
+      auto-index-creation: true
 
 server:
   port: 8080
   servlet: /api/v1
+
+weather:
+  api:
+    key: 202d3c88032a74873b831c2026bfd117
