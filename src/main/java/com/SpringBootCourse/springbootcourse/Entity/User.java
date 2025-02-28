@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,8 @@ public class User {
     @Indexed(unique = true)
     @NonNull
     private String username;
+    private String email;
+    private Boolean sentimentAnalysis;
     @NonNull
     private String password;
     private List<String> roles;
