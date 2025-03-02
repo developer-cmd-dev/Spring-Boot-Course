@@ -1,5 +1,6 @@
 package com.SpringBootCourse.springbootcourse.config;
 
+import com.SpringBootCourse.springbootcourse.ExceptionHandler.BasicAuthenticationEntryPoint;
 import com.SpringBootCourse.springbootcourse.service.CustomeUserDetailsIMPL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,12 @@ public class SpringSecurity   {
     @Autowired
     private CustomeUserDetailsIMPL userDetailsService;
 
+    private final BasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
+
+    public SpringSecurity(BasicAuthenticationEntryPoint basicAuthenticationEntryPoint) {
+        this.basicAuthenticationEntryPoint = basicAuthenticationEntryPoint;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,7 +40,7 @@ public class SpringSecurity   {
                         .requestMatchers("/journal/**", "/user/**").authenticated()
                         .requestMatchers("/admin/get-all-users").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(httpBasic->httpBasic.authenticationEntryPoint(this.basicAuthenticationEntryPoint))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }

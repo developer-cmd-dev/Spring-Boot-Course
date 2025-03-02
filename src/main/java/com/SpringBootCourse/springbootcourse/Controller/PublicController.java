@@ -1,7 +1,7 @@
 package com.SpringBootCourse.springbootcourse.Controller;
 
 import com.SpringBootCourse.springbootcourse.Entity.User;
-import com.SpringBootCourse.springbootcourse.repository.UserRepositoryImpl;
+
 import com.SpringBootCourse.springbootcourse.service.EmailService;
 import com.SpringBootCourse.springbootcourse.service.UserService;
 import com.SpringBootCourse.springbootcourse.service.WeatherService;
