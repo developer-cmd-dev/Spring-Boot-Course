@@ -1,15 +1,15 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://devkmandal0:Devk4522@cluster0.degwg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      uri:
       database: journaldb
       auto-index-creation: true
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: devkmandal0@gmail.com
-    password: ezpw cqxb txxw vfdm
+    username: ${SMTP_MAIL}
+    password: ${SMTP_MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -23,6 +23,6 @@ server:
 
 weather:
   api:
-    key: 202d3c88032a74873b831c2026bfd117
+    key: ${WEATHER_API_KEY}
 
 
